@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Celery Test</title>
+  </head>
+  <body>
+    {{ message }} {{ data }}
+    <input type="hidden" id="task_id" name="task_id" value="{{ task_id }}" />
+    <div id="add"></div>
+  </body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function() {
+    get_celery_id_status();
+  });
+
+  function get_celery_id_status() {
+    task_id = document.getElementById("task_id").value;
+    $.ajax({
+      url: "/check-status/",
+      type: "POST",
+      data: {
+        celery_id: task_id
+      },
+      success: function(response) {
+        var result = JSON.parse(response);
+        //console.log(result["status"]);
+        if (result["status"] == "PENDING") {
+          console.log(result["status"]);
+          setTimeout(alertFunc, 3000);
+        } else {
+          html_add = ' <div id="add_div">\n' + "<p> OK </p>" + " </div>";
+
+          $("#add").append(html_add);
+          window.open("http://127.0.0.1:8000/dw/");
+          console.log(result["status"]);
+        }
+      }
+    });
+  }
+
+  function alertFunc() {
+    get_celery_id_status();
+  }
+</script>
