@@ -26,7 +26,7 @@ from celery.result import AsyncResult
 # TO run celery
 # Run vnev , for this project jp3
 # Go to the project directory
-# celery -A ct worker -l info
+# celery -A ct(project_name) worker -l info
 
 # Redis
 # Check Redis-Server Status:
@@ -92,3 +92,7 @@ def download_test(request):
     response = HttpResponse(f, content_type='application/vnd.ms-excel')
     response['Content-Disposition'] = 'attachment; filename=Expenses01.xlsx'
     return response
+
+
+def home(request):
+    return render(request, "home.html")

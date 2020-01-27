@@ -19,7 +19,8 @@ from ct import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^celery/',views.get_celery, name='get_celery'),
-    url(r'^check-status/',views.check_status, name='check_status'),
-    url(r'^dw/',views.download_test, name='download_test'),
+    url(r'^$', views.home, name='home'),
+    url(r'^celery/', views.get_celery, name='get_celery'),
+    url(r'^check-status/', views.check_status, name='check_status'),
+    url(r'^dw/', views.download_test, name='download_test'),
 ]
