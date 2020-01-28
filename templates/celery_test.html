@@ -16,6 +16,7 @@
     <div class="container">
       <h2>{{ message }} {{ data }}</h2>
       <input type="hidden" id="task_id" name="task_id" value="{{ task_id }}" />
+      <div id="progress"></div>
       <div id="add"></div>
     </div>
   </body>
@@ -23,6 +24,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+  var progress = 0;
+
   $(document).ready(function() {
     get_celery_id_status();
   });
@@ -37,16 +40,24 @@
       },
       success: function(response) {
         var result = JSON.parse(response);
-        //console.log(result["status"]);
         if (result["status"] == "PENDING") {
           console.log(result["status"]);
+          if (progress < 99) {
+            $("#add_progress_div").remove();
+            html_progress = getProgressBar(progress);
+            $("#progress").append(html_progress);
+          }
+          progress++;
           setTimeout(alertFunc, 3000);
         } else {
+          $("#add_progress_div").remove();
+          html_progress = getProgressBar(100);
+          $("#progress").append(html_progress);
+
           html_add =
             ' <div id="add_div">\n' +
             '<h1 style="color:green"> OK </h1>' +
             " </div>";
-
           $("#add").append(html_add);
           window.open("http://127.0.0.1:8000/dw/");
           console.log(result["status"]);
@@ -57,5 +68,22 @@
 
   function alertFunc() {
     get_celery_id_status();
+  }
+
+  function getProgressBar(value) {
+    var str =
+      ' <div id="add_progress_div" >\n' +
+      '  <div class="progress-bar progress-bar-striped active" role="progressbar ' +
+      'aria-valuenow="' +
+      value +
+      '" aria-valuemin="0" aria-valuemax="100" style="width:' +
+      value +
+      '%">' +
+      value +
+      "%" +
+      "</div>" +
+      " </div>";
+
+    return str;
   }
 </script>
