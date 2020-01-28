@@ -16,13 +16,12 @@
     <div class="container">
       <h2>{{ message }} {{ data }}</h2>
       <input type="hidden" id="task_id" name="task_id" value="{{ task_id }}" />
-      <div id="progress"></div>
+      <div id="progress" class="progress"></div>
       <div id="add"></div>
     </div>
   </body>
 </html>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
   var progress = 0;
 
